@@ -3,7 +3,7 @@
 
 ## Description
 
-This project present a rust solution for
+This project present a rust solution (based on Gale-Shapley's algorithm) for
 [Stable Marriage Problem (SMP)](https://en.wikipedia.org/wiki/Stable_marriage_problem) developed as a work for
 Algorithms Project discipline.
 The SMP is a search problem whose purpose is to find a stable matching set. Each match is composed by two elements
