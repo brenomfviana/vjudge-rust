@@ -41,6 +41,25 @@ The respective stable mathing set ![equation](http://latex.codecogs.com/gif.late
 ![equation](http://latex.codecogs.com/gif.latex?%5C%5C%281%2C%203%29%5C%5C%20%282%2C%202%29%5C%5C%20%283%2C%201%29%5C%5C%20%284%2C%204%29)
 
 
+## Gale-Shapley's Pseudo Algorithm
+
+```
+Initialize each person (men and women) to be free.
+while there is a man who is free and hasn't proposed to every woman:
+  m: choose a free man
+  w: the first woman on women's list to whom m has not yet proposed
+  if w is free:
+    m and w become engaged
+  else // w is curently engaged to another man: m'
+    if w prefers m to her fiancé m':
+      m and w become engaged
+      m' becomes free
+    else
+      w rejects m // m remains free!
+Return the set S of engaged pairs (stable matching)
+```
+
+
 ## Usage
 
 To run the solver use the following command:
