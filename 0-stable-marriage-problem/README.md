@@ -1,4 +1,4 @@
-# A - Stable Marriage Problem
+# Stable Marriage Problem
 
 ## Description
 
