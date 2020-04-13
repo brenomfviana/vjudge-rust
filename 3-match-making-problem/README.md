@@ -61,6 +61,7 @@ Input is terminated by a line containing two zeroes.
 
 ### Sample Input
 
+```
 4 4
 26
 25
@@ -82,6 +83,7 @@ Input is terminated by a line containing two zeroes.
 20
 18
 0 0
+```
 
 
 ## Output
@@ -96,6 +98,8 @@ details.
 
 ### Sample Output
 
+```
 Case 1: 0
 Case 2: 0
 Case 3: 2 5
+```
