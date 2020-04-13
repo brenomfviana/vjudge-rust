@@ -13,6 +13,7 @@ from (R1 , C) to (R2 , C) where 1 ≤ R1 , R2 ≤ 8 and R1 != R2.
 
 You have to find the minimum number of moves required to complete the task.
 
+
 ## Input
 
 There will be multiple test cases. Each case consists of a line containing 8
@@ -25,6 +26,7 @@ indicates the row position of a queen in the i-th column.
 1 2 3 4 5 6 7 8
 1 1 1 1 1 1 1 1
 ```
+
 
 ## Constraints
 
