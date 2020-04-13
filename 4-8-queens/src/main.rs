@@ -45,15 +45,12 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_line(&mut input)
       .expect("Error: Unable to read user input.");
-    let auxvec: Vec<String> = input.split(" ")
-      .map(|s| s.trim().to_string()).collect();
+    let queens: Vec<usize> = input.split(" ")
+      .map(|s| s.trim().to_string().parse::<usize>())
+      .filter_map(Result::ok)
+      .collect();
     // Check if the number of queens is not eight and break loop
-    if auxvec.len() != 8 { break; }
-    // Initialize queens vector
-    let mut queens: Vec<usize> = vec![];
-    for s in auxvec.iter() {
-      if let Ok(s) = s.parse::<usize>() { queens.push(s); }
-    }
+    if queens.len() != 8 { break; }
     let mut row = queens.clone();
     itc += 1;
     // Find number of moves to find 8 queens solution
