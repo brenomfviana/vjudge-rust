@@ -1,6 +1,6 @@
 use std::io;
 
-/// Finds all posible paths of a maze.
+/// Finds all possible paths of a maze.
 fn find_path(maze: &mut Vec<&str>, size: usize, p: usize, e: usize,
   dir: String) {
     // Convert positions to a 2D position
