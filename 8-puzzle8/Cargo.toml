@@ -1,5 +1,5 @@
 [package]
-name = "8puzzle"
+name = "puzzle8"
 version = "0.1.0"
 authors = ["Breno Viana <brenomfviana@gmail.com>"]
 edition = "2018"
