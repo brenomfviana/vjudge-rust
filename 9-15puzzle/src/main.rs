@@ -12,7 +12,7 @@ type Cost = Option<usize>; // None represents positive infinity
 const D: usize = 4;
 /// Posible move directions.
 const DIRS: &'static [(i32, i32)] = &[(-1, 0), (1, 0), (0, -1), (0, 1)];
-/// Board goal
+/// Board goal.
 const GOAL: &'static [&'static [usize]] =
   &[&[1, 2, 3, 4], &[5, 6, 7, 8], &[9, 10, 11, 12], &[13, 14, 15, 0]
 ];
