@@ -2,25 +2,25 @@ use std::io;
 
 const ERR: f64 = 0.000000001;
 
-fn f(params: &Vec<i32>, x: f64) -> f64 {
+fn f(params: &Vec<f64>, x: f64) -> f64 {
   // Get parameters
-  let (p, q, r) = (params[0] as f64, params[1] as f64, params[2] as f64);
-  let (s, t, u) = (params[3] as f64, params[4] as f64, params[5] as f64);
+  let (p, q, r) = (params[0], params[1], params[2] as f64);
+  let (s, t, u) = (params[3], params[4], params[5] as f64);
   // Calculate function
   return p * (-x).exp() + q * x.sin() + r * x.cos() +
     s * x.tan() + t * x.powi(2) + u;
 }
 
-fn pass(params: &Vec<i32>, x: f64) -> f64 {
+fn pass(params: &Vec<f64>, x: f64) -> f64 {
   // Get parameters
-  let (p, q, r) = (params[0] as f64, params[1] as f64, params[2] as f64);
-  let (s, t, _) = (params[3] as f64, params[4] as f64, params[5] as f64);
+  let (p, q, r) = (params[0], params[1], params[2] as f64);
+  let (s, t, _) = (params[3], params[4], params[5] as f64);
   // Calculate function
   return - p * (-x).exp() + q * x.cos() - r * x.sin() +
     s / x.cos() / x.cos() + t * x * 2f64;
 }
 
-fn solve(params: &Vec<i32>, mut x: f64) -> f64 {
+fn solve(params: &Vec<f64>, mut x: f64) -> f64 {
   loop {
     // Calculate `f(x)`
     let result = f(params, x);
@@ -40,8 +40,8 @@ fn main() {
     // Check if the end condition was reached
     if input == "" { break; }
     // Convert input to an array of integers (the function parameters)
-    let ps: Vec<i32> = input.split(" ")
-      .map(|s| s.trim().to_string().parse::<i32>())
+    let ps: Vec<f64> = input.split(" ")
+      .map(|s| s.trim().to_string().parse::<f64>())
       .filter_map(Result::ok).collect();
     // Check if the function can be solver with the given parameters
     if f(&ps, 1f64) * f(&ps, 0f64) > 0f64 { println!("No solution"); continue; }
