@@ -41,7 +41,7 @@ fn main() {
     if input == "" { break; }
     // Convert input to an array of integers (the function parameters)
     let ps: Vec<f64> = input.split(" ")
-      .map(|s| s.trim().to_string().parse::<f64>())
+      .map(|s| s.trim().parse::<f64>())
       .filter_map(Result::ok).collect();
     // Check if the function can be solver with the given parameters
     if f(&ps, 1f64) * f(&ps, 0f64) > 0f64 { println!("No solution"); continue; }

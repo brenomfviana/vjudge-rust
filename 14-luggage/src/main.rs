@@ -38,11 +38,11 @@ fn main() {
   let mut input = String::new();
   io::stdin().read_line(&mut input)
     .expect("Error: Unable to read user input.");
-  let input = input.trim().parse::<isize>();
+  let ntc = input.trim().parse::<isize>();
   // Check if the number of test cases was read
-  if let Ok(mut itc) = input {
+  if let Ok(mut ntc) = ntc {
     // Run test cases
-    while itc > 0 {
+    while ntc > 0 {
       // A vector to hold all the weights of each suitcases
       let mut input = String::new();
       io::stdin().read_line(&mut input)
@@ -56,7 +56,7 @@ fn main() {
       if solve(weights, sum) { println!("YES"); }
       else { println!("NO"); }
       // Next test case
-      itc -= 1;
+      ntc -= 1;
     }
   }
 }

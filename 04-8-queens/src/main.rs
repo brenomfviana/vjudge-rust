@@ -38,7 +38,7 @@ fn search(row: &mut Vec<usize>, queens: &Vec<usize>, r: usize) -> usize {
 
 fn main() {
   // Control variables
-  let (mut itc, mut ntc) = (0, 0);
+  let mut ntc = 0;
   // Run test cases
   while ntc < 1000 {
     // Get the vertical position of each queen
@@ -46,17 +46,15 @@ fn main() {
     io::stdin().read_line(&mut input)
       .expect("Error: Unable to read user input.");
     let queens: Vec<usize> = input.split(" ")
-      .map(|s| s.trim().to_string().parse::<usize>())
-      .filter_map(Result::ok)
-      .collect();
+      .map(|s| s.trim().parse::<usize>())
+      .filter_map(Result::ok).collect();
     // Check if the number of queens is not eight and break loop
     if queens.len() != 8 { break; }
     let mut row = queens.clone();
-    itc += 1;
+    ntc += 1;
     // Find number of moves to find 8 queens solution
     let min = search(&mut row, &queens, 0);
     // Print result
-    println!("Case {}: {}", itc, min);
-    ntc += 1;
+    println!("Case {}: {}", ntc, min);
   }
 }

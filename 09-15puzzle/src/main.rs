@@ -69,7 +69,7 @@ fn read_board() -> Board {
     io::stdin().read_line(&mut input)
       .expect("Error: Unable to read user input.");
     let row: Vec<usize> = input.split(" ")
-      .map(|s| s.trim().to_string().parse::<usize>())
+      .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
     board[i] = row;
   }
@@ -118,7 +118,8 @@ fn h(board: &Board, goal: &GoalMap) -> usize {
   let mut cost = 0;
   // Calculates the manhattan distance from the element's current position
   // with its correct position
-  for i in 0..D { for j in 0..D {
+  for i in 0..D {
+    for j in 0..D {
       // Ignore empty block
       if board[i][j] == 0 { continue; }
       // Get right number position
@@ -210,11 +211,11 @@ fn solve(board: Board, goal: &GoalMap) -> String {
     // Check if the solution was found
     if state.board == GOAL { return state.moves; }
     // Check if the cost is infinite
-    else if let None = state.cost { println!("None"); return String::new(); }
+    else if let None = state.cost { return String::new(); }
     // Update bound of search cost
     else if let Some(cost) = state.cost { bound = cost; }
     // Check if the end condition is valid
-    if bound >= 50 { println!("50"); return String::new(); }
+    if bound >= 50 { return String::new(); }
   }
 }
 
@@ -224,17 +225,15 @@ fn main() {
   // Get number of test cases
   let mut input = String::new();
   io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  // Check if the number of test cases was read
   if let Ok(ntc) = input.trim().parse::<usize>() {
     // Run test cases
     for _ in 0..ntc {
       // Read puzzle board
       let board = read_board();
-      // Check if the puzzle is solvable
-      if is_solvable(&board) {
-        println!("{}", solve(board, &goal_map));
-      } else {
-        println!("This puzzle is not solvable.");
-      }
+      // Check if the puzzle is solvable and print solution
+      if is_solvable(&board) { println!("{}", solve(board, &goal_map)); }
+      else { println!("This puzzle is not solvable."); }
     }
   }
 }

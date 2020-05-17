@@ -1,6 +1,6 @@
 use std::io;
 
-/// Apply Gale-Shapley's algorithm
+/// Applies Gale-Shapley's algorithm
 fn gale_shapley(mp: Vec<Vec<usize>>, wp: Vec<Vec<usize>>, nu: usize) {
   // Init couples
   let mut couples: Vec<Option<usize>> = vec![None; nu];
@@ -44,7 +44,7 @@ fn gale_shapley(mp: Vec<Vec<usize>>, wp: Vec<Vec<usize>>, nu: usize) {
   }
 }
 
-/// Get the person's preferences
+/// Gets the person's preferences
 fn get_preferences(size: usize) -> Vec<Vec<usize>> {
   // Init preferences list
   let mut preferences: Vec<Vec<usize>> = vec![];
@@ -54,7 +54,6 @@ fn get_preferences(size: usize) -> Vec<Vec<usize>> {
     let mut input = String::new();
     io::stdin().read_line(&mut input)
       .expect("Error: Unable to read user input.");
-    input = input.trim().to_string();
     // Split the preferences line
     let split_prefs: Vec<String> = input.split(" ")
       .map(|s| s.to_string()).collect();
@@ -63,11 +62,8 @@ fn get_preferences(size: usize) -> Vec<Vec<usize>> {
     for v in &split_prefs[1..] {
       if let Ok(v) = v.parse::<usize>() {
         let v = v - 1;
-        // Check if the value is greater then the number of couples
-        if v >= size {
-          // Return an invalid list
-          return vec![];
-        }
+        // If `v` is greater than the number of couples return an empty list
+        if v >= size { return vec![]; }
         values.push(v);
       }
     }
@@ -83,6 +79,7 @@ fn main() {
   io::stdin().read_line(&mut input)
     .expect("Error: Unable to read user input.");
   let ntc = input.trim().parse::<usize>();
+  // Check if the number of test cases was read
   if let Ok(mut ntc) = ntc {
     // Run test cases
     while ntc > 0 {
@@ -91,6 +88,7 @@ fn main() {
       io::stdin().read_line(&mut input)
         .expect("Error: Unable to read user input.");
       let nc = input.trim().parse::<usize>();
+      // Check if the number of couples was read
       if let Ok(nc) = nc {
         // Read men and women preferences
         let wp = get_preferences(nc);
@@ -103,9 +101,7 @@ fn main() {
         gale_shapley(mp, wp, nc);
         // Next test case
         ntc -= 1;
-      } else {
-        break;
-      }
+      } else { break; }
     }
   }
 }

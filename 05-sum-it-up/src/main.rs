@@ -3,15 +3,13 @@ use std::io;
 /// Prints the equation that results in the sum.
 fn print_sum(solution: &Vec<usize>) {
   // If the solution has only one number
-  if solution.len() == 1 {
-    println!("{}", solution[0]);
-  } else {
+  if solution.len() == 1 { println!("{}", solution[0]); }
+  else {
     for (i, n) in solution.iter().enumerate() {
-      if i == solution.len() - 1 {
-        println!("{}", n);
-      } else {
-        print!("{}+", n);
-      }
+      // Add the first numbers
+      if i != solution.len() - 1 { print!("{}+", n); }
+      // Add the last number
+      else { println!("{}", n); }
     }
   }
 }
@@ -40,9 +38,8 @@ fn main() {
     io::stdin().read_line(&mut input)
       .expect("Error: Unable to read user input.");
     let data: Vec<usize> = input.split(" ")
-      .map(|s| s.trim().to_string().parse::<usize>())
-      .filter_map(Result::ok)
-      .collect();
+      .map(|s| s.trim().parse::<usize>())
+      .filter_map(Result::ok).collect();
     // Check if the end condition is valid
     if data.len() == 2 && data[0] == 0 && data[1] == 0 { break; }
     // Get the goal number and the list size

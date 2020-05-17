@@ -58,7 +58,7 @@ fn main() {
     if input == "" { break; }
     // Get the number of campsites and the number of nights of the trip
     let params: Vec<usize> = input.split(" ")
-      .map(|s| s.trim().to_string().parse::<usize>())
+      .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
     let (nc, nnt) = (params[0], params[1]);
     // Read campsites distances
@@ -69,7 +69,7 @@ fn main() {
       let mut input = String::new();
       io::stdin().read_line(&mut input)
         .expect("Error: Unable to read user input.");
-      let distance: usize = input.trim().to_string().parse::<usize>().unwrap();
+      let distance: usize = input.trim().parse::<usize>().unwrap();
       campsites.push(distance);
       total_distance += distance;
     }

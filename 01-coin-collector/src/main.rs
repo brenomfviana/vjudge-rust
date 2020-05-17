@@ -1,6 +1,6 @@
 use std::io;
 
-/// Find and print the amount of coins that can be withdrawn.
+/// Finds and prints the amount of coins that can be withdrawn.
 ///
 /// Algorithm explanation
 /// We only can ensure this for a ascending sorted list of coins.
@@ -22,27 +22,19 @@ fn withdraw(coins : Vec<usize>) {
   println!("{}", cnt);
 }
 
+/// Read the coins.
 fn read_coins(size: usize) -> Vec<usize> {
   // Get list of coins
   let mut input = String::new();
   io::stdin().read_line(&mut input)
     .expect("Error: Unable to read user input.");
-  input = input.trim().to_string();
-  // Split the coins line
-  let split_coins: Vec<String> = input.split(" ")
-    .map(|s| s.to_string()).collect();
   // Convert coin value to unsingned integer
-  let mut coins: Vec<usize> = vec![];
-  for v in &split_coins {
-    if let Ok(v) = v.parse::<usize>() {
-      coins.push(v);
-    }
-  }
-  // Check if the value is greater then the number of couples
-  if coins.len() > size {
-    // Return an invalid list
-    return vec![];
-  }
+  let coins: Vec<usize> = input.split(" ")
+    .map(|s| s.trim().parse::<usize>())
+    .filter_map(Result::ok).collect();
+  // If the number of coins is greater than the size then return an empty list
+  if coins.len() > size { return vec![]; }
+  // Return the list of coins
   coins
 }
 
@@ -60,6 +52,7 @@ fn main() {
       io::stdin().read_line(&mut input)
         .expect("Error: Unable to read user input.");
       let nc = input.trim().parse::<usize>();
+      // Check if the number of coins was read
       if let Ok(nc) = nc {
         // Read the coins
         let coins = read_coins(nc);
@@ -67,9 +60,7 @@ fn main() {
         withdraw(coins);
         // Next test case
         ntc -= 1;
-      } else {
-        break;
-      }
+      } else { break; }
     }
   }
 }

@@ -25,7 +25,7 @@ fn knuth(string: &Vec<char>, kstr: &mut Vec<char>, index: usize) {
 }
 
 fn main() {
-  let mut itc = 0;
+  let mut ntc = 0;
   loop {
     // Get string
     let mut input = String::new();
@@ -35,11 +35,11 @@ fn main() {
     // Check if the string is empty and break loop
     if input.is_empty() { break; }
     // Separate results
-    if itc != 0 { println!(""); }
+    if ntc != 0 { println!(""); }
     // Find permutations
     let mut string: Vec<char> = input.chars().collect();
     knuth(&string.clone(), &mut string, 0);
     // Next test case
-    itc += 1;
+    ntc += 1;
   }
 }

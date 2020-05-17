@@ -52,25 +52,28 @@ fn main() {
   let mut input = String::new();
   io::stdin().read_line(&mut input)
     .expect("Error: Unable to read user input.");
-  let mut itc = input.trim().to_string().parse::<usize>().unwrap();
-  // Run test cases
-  while itc > 0 {
-    // Read array size
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
-    let _ = input.trim().to_string().parse::<usize>().unwrap();
-    // Read array
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
-    let array: Vec<usize> = input.split(" ")
-      .map(|s| s.trim().to_string().parse::<usize>())
-      .filter_map(Result::ok).collect();
-    // Find the number of inversions
-    let (inv, _) = solve(array);
-    println!("{}", inv);
-    // Next test case
-    itc -= 1;
+  let ntc = input.trim().parse::<usize>();
+  // Check if the number of test cases was read
+  if let Ok(mut ntc) = ntc {
+    // Run test cases
+    while ntc > 0 {
+      // Read array size
+      let mut input = String::new();
+      io::stdin().read_line(&mut input)
+        .expect("Error: Unable to read user input.");
+      let _ = input.trim().parse::<usize>().unwrap();
+      // Read array
+      let mut input = String::new();
+      io::stdin().read_line(&mut input)
+        .expect("Error: Unable to read user input.");
+      let array: Vec<usize> = input.split(" ")
+        .map(|s| s.trim().parse::<usize>())
+        .filter_map(Result::ok).collect();
+      // Find the number of inversions
+      let (inv, _) = solve(array);
+      println!("{}", inv);
+      // Next test case
+      ntc -= 1;
+    }
   }
 }

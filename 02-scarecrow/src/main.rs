@@ -5,6 +5,7 @@ fn main() {
   let mut input = String::new();
   io::stdin().read_line(&mut input)
     .expect("Error: Unable to read user input.");
+  // Check if the number of test cases was read
   let ntc = input.trim().parse::<usize>();
   if let Ok(ntc) = ntc {
     // Run test cases
@@ -14,6 +15,7 @@ fn main() {
       io::stdin().read_line(&mut input)
         .expect("Error: Unable to read user input.");
       let fs = input.trim().parse::<usize>();
+      // Check if the field size was read
       if let Ok(fs) = fs {
         // Read field
         let mut field = String::with_capacity(fs);
@@ -35,9 +37,7 @@ fn main() {
         }
         // Print solution
         println!("Case {}: {}", i + 1, cnt);
-      } else {
-        break;
-      }
+      } else { break; }
     }
   }
 }

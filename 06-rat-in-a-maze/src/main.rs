@@ -7,11 +7,9 @@ fn find_path(maze: &mut Vec<&str>, size: usize, p: usize, e: usize,
     let (x, y) = (p % size, (p / size) as usize);
     // Set room as visited
     maze[y * size + x] = "2";
-    // Check if the end was reached
-    if p == e {
-      // Print result
-      print!("{} ", dir);
-    } else {
+    // Check if the end was reached and print the result
+    if p == e { print!("{} ", dir); }
+    else {
       let up = (y as isize - 1) >= 0;
       let ny = (y as isize - 1) * size as isize + x as isize;
       if up && maze[ny as usize] == "1" {
@@ -40,23 +38,29 @@ fn main() {
   let mut input = String::new();
   io::stdin().read_line(&mut input)
     .expect("Error: Unable to read user input.");
-  let mut itc = input.trim().to_string().parse::<usize>().unwrap();
-  // Run test cases
-  while itc > 0 {
-    // Read maze size
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
-    let msize = input.trim().to_string().parse::<usize>().unwrap();
-    // Read maze
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
-    let mut maze: Vec<&str> = input.split(" ").map(|s| s.trim()).collect();
-    // Find and print all solutions of a maze
-    find_path(&mut maze, msize, 0, msize * msize - 1, String::new());
-    print!("\n");
-    // Next test case
-    itc -= 1;
+  let ntc = input.trim().parse::<usize>();
+  // Check if the number of test cases was read
+  if let Ok(mut ntc) = ntc {
+    // Run test cases
+    while ntc > 0 {
+      // Read maze size
+      let mut input = String::new();
+      io::stdin().read_line(&mut input)
+        .expect("Error: Unable to read user input.");
+      let msize = input.trim().parse::<usize>();
+      // Check if the maze size was read
+      if let Ok(msize) = msize {
+        // Read maze
+        let mut input = String::new();
+        io::stdin().read_line(&mut input)
+          .expect("Error: Unable to read user input.");
+        let mut maze: Vec<&str> = input.split(" ").map(|s| s.trim()).collect();
+        // Find and print all solutions of a maze
+        find_path(&mut maze, msize, 0, msize * msize - 1, String::new());
+        println!("");
+        // Next test case
+        ntc -= 1;
+      } else { break; }
+    }
   }
 }
