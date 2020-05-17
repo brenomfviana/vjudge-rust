@@ -51,6 +51,7 @@ fn main() {
     // Check if the number of queens is not eight and break loop
     if queens.len() != 8 { break; }
     let mut row = queens.clone();
+    // Next test case
     ntc += 1;
     // Find number of moves to find 8 queens solution
     let min = search(&mut row, &queens, 0);

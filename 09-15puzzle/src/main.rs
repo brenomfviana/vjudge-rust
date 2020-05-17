@@ -118,15 +118,13 @@ fn h(board: &Board, goal: &GoalMap) -> usize {
   let mut cost = 0;
   // Calculates the manhattan distance from the element's current position
   // with its correct position
-  for i in 0..D {
-    for j in 0..D {
-      // Ignore empty block
-      if board[i][j] == 0 { continue; }
-      // Get right number position
-      let (gi, gj) = goal[&board[i][j]];
-      cost += ((gi as i32 - i as i32) + (gj as i32 - j as i32)).abs();
-    }
-  }
+  for i in 0..D { for j in 0..D {
+    // Ignore empty block
+    if board[i][j] == 0 { continue; }
+    // Get right number position
+    let (gi, gj) = goal[&board[i][j]];
+    cost += ((gi as i32 - i as i32) + (gj as i32 - j as i32)).abs();
+  } }
   // Return heuristic cost
   cost as usize
 }
