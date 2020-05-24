@@ -26,7 +26,7 @@ fn solve(grph: AdjMtx) -> String {
   let mut cnt: usize = 0;
   // Order of the words in the strange alphabet
   let mut order = String::new();
-  // Run DFS
+  // Run BFS
   while let Some(node) = deque.pop_front() {
     // Add the node to topological order
     order.push(node);
