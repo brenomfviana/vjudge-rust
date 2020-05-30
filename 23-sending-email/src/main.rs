@@ -65,7 +65,7 @@ fn read_server_config() -> (Graph, usize, usize) {
       .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
     if conn.len() != 3 { panic!("Invalid file."); }
-    // Get from and to servers and the connection latency
+    // Get from and to servers and their connection latency
     let (f, t, l) = (conn[0], conn[1], conn[2]);
     grph[f].push((t, l)); grph[t].push((f, l));
     // Check if all connections were read
