@@ -37,7 +37,7 @@ fn build_state_graph() -> HashMap<usize, Edge> {
   // State graph
   let mut state_graph: HashMap<usize, Edge> = HashMap::new();
   state_graph.insert(GOAL, Edge::new());
-  // Initialize queue
+  // Initialize deque
   let mut deque: VecDeque<usize> = VecDeque::new();
   deque.push_back(GOAL);
   // Initialize puzzle board
