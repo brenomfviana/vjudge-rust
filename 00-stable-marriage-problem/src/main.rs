@@ -7,40 +7,46 @@ fn gale_shapley(mp: Vec<Vec<usize>>, wp: Vec<Vec<usize>>, nu: usize) {
   // Find solution
   while couples.contains(&None) {
     // Get next man
-    let mi = couples.iter().position(|&e| e == None);
-    if let Some(mi) = mi {
-      // Check each of him preferences
-      if let Some(mip) = mp.get(mi) {
-        for wi in mip {
-          // Check if the woman is available
-          if !couples.contains(&Some(*wi)) {
+    let mi;
+    if let Some(i) = couples.iter().position(|&e| e == None) { mi = i; }
+    else { panic!("Invalid man index."); }
+    // Get man preferences
+    let mip;
+    if let Some(p) = mp.get(mi) { mip = p; }
+    else { panic!("Invalid man preferences."); }
+    // Check each of him preferences
+    for wi in mip {
+      // Check if the woman is available
+      if !couples.contains(&Some(*wi)) { couples[mi] = Some(*wi); break; }
+      else {
+        // Get current fiance
+        let f;
+        if let Some(c) = couples.iter().position(|&e| e == Some(*wi)) { f = c; }
+        else { panic!("Invalid man index."); }
+        // Get woman preferences
+        let wip;
+        if let Some(p) = wp.get(*wi) { wip = p; }
+        else { panic!("Invalid woman preferences."); }
+        // Compare the woman current fiance and the new proposer
+        let proposer = wip.iter().position(|&e| e == mi);
+        let fiance = wip.iter().position(|&e| e == f);
+        // Check if the woman prefers the new man and update marriage
+        if let (Some(proposer), Some(fiance)) = (proposer, fiance) {
+          if proposer < fiance {
             couples[mi] = Some(*wi);
+            couples[f] = None;
             break;
-          } else {
-            // Get current fiance
-            let c = couples.iter().position(|&e| e == Some(*wi));
-            if let Some(c) = c {
-              if let Some(wip) = wp.get(*wi) {
-                let a = wip.iter().position(|&e| e == mi);
-                let b = wip.iter().position(|&e| e == c);
-                // Check if the woman prefers the new man and update marriage
-                if let (Some(a), Some(b)) = (a, b) {
-                  if a < b {
-                    couples[mi] = Some(*wi);
-                    couples[c] = None;
-                    break;
-                  }
-                }
-              }
-            }
           }
-        }
+        } else { panic!("The .") }
       }
     }
   }
   // Print solution
-  for (i, c) in couples.iter().enumerate() {
-    println!("{} {}", i + 1, c.unwrap() + 1);
+  for (i, couple) in couples.iter().enumerate() {
+    let c;
+    if let Some(a) = couple { c = a; }
+    else { panic!("There is an invalid couple."); }
+    println!("{} {}", i + 1, c + 1);
   }
 }
 
@@ -55,22 +61,15 @@ fn get_preferences(size: usize) -> Vec<Vec<usize>> {
     io::stdin().read_line(&mut input)
       .expect("Error: Unable to read user input.");
     // Split the preferences line
-    let split_prefs: Vec<String> = input.split(" ")
-      .map(|s| s.to_string()).collect();
-    // Convert values to unsingned integer
-    let mut values: Vec<usize> = vec![];
-    for v in &split_prefs[1..] {
-      if let Ok(v) = v.parse::<usize>() {
-        let v = v - 1;
-        // If `v` is greater than the number of couples return an empty list
-        if v >= size { return vec![]; }
-        values.push(v);
-      }
-    }
-    // Add to preferences
-    preferences.push(values);
+    preferences.push(input.split(' ')
+      .enumerate()
+      .filter(|(i, _)| *i > 0)
+      .map(|(_, s)| s.trim().parse::<usize>())
+      .filter_map(Result::ok)
+      .map(|s| s - 1)
+      .collect::<Vec<usize>>());
   }
-  return preferences;
+  preferences
 }
 
 fn main() {
@@ -78,25 +77,21 @@ fn main() {
   let mut input = String::new();
   io::stdin().read_line(&mut input)
     .expect("Error: Unable to read user input.");
-  let ntc = input.trim().parse::<usize>();
   // Check if the number of test cases was read
-  if let Ok(mut ntc) = ntc {
+  if let Ok(mut ntc) = input.trim().parse::<usize>() {
     // Run test cases
     while ntc > 0 {
       // Get number of couples
       let mut input = String::new();
       io::stdin().read_line(&mut input)
         .expect("Error: Unable to read user input.");
-      let nc = input.trim().parse::<usize>();
       // Check if the number of couples was read
-      if let Ok(nc) = nc {
+      if let Ok(nc) = input.trim().parse::<usize>() {
         // Read men and women preferences
         let wp = get_preferences(nc);
         let mp = get_preferences(nc);
         // Check if the preferences are not valid
-        if mp.is_empty() || wp.is_empty() || mp.len() != nc || wp.len() != nc {
-          break;
-        }
+        if mp.len() != nc || wp.len() != nc { break; }
         // Solve stable marriage problem
         gale_shapley(mp, wp, nc);
         // Next test case
