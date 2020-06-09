@@ -1,10 +1,17 @@
 use std::io;
 use std::cmp;
 
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
+}
+
 /// Checks if the sub-board is valid for the 8 queens problem.
-fn is_valid(row: &Vec<usize>, r: usize, c: usize) -> bool {
+fn is_valid(row: &[usize], r: usize, c: usize) -> bool {
   // For each row
-  for i in 0..r {
+  for (i, _) in row.iter().enumerate().take(r) {
     // Convert values to i8
     let (r, c, i, ri) = (r as i8, c as i8, i as i8, row[i] as i8);
     // Check risks
@@ -14,7 +21,7 @@ fn is_valid(row: &Vec<usize>, r: usize, c: usize) -> bool {
 }
 
 /// Finds the number of moves to turn the board valid for the 8 queens problem.
-fn search(row: &mut Vec<usize>, queens: &Vec<usize>, r: usize) -> usize {
+fn search(row: &mut Vec<usize>, queens: &[usize], r: usize) -> usize {
   // Check if the recursion has reached the depth 8
   if r == 8 { return 0; }
   // Move queens
@@ -42,14 +49,13 @@ fn main() {
   // Run test cases
   while ntc < 1000 {
     // Get the vertical position of each queen
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
-    let queens: Vec<usize> = input.split(" ")
+    let queens: Vec<usize> = read_line().split(' ')
       .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
+    // Check if the end condition was reached
+    if queens.is_empty() { break; }
     // Check if the number of queens is not eight and break loop
-    if queens.len() != 8 { break; }
+    if queens.len() != 8 { panic!("Invalid number of queens.") }
     let mut row = queens.clone();
     // Next test case
     ntc += 1;

@@ -2,11 +2,10 @@
 
 ## Description
 
-Our dear Sultan is visiting a country where there are
-![equation](http://latex.codecogs.com/gif.latex?n) different types of
+Our dear Sultan is visiting a country where there are n different types of
 coin. He wants to collect as many different types of coin as you can. Now if he
-wants to withdraw ![equation](http://latex.codecogs.com/gif.latex?x) amount of
-money from a bank, the bank will give him this money using following algorithm.
+wants to withdraw x amount of money from a bank, the bank will give him this
+money using following algorithm.
 
 ```
 withdraw(x) {
@@ -23,17 +22,10 @@ the number of different coins that he can collect in a single withdrawal.
 
 ## Input
 
-First line of the input contains
-![equation](http://latex.codecogs.com/gif.latex?t) the number of test cases.
-Each of the test cases starts with
-![equation](http://latex.codecogs.com/gif.latex?n), where
-![equation](http://latex.codecogs.com/gif.latex?%281%20%3C%3D%20n%20%3C%3D%201000%29),
-the number of different types of coin. Next line contains
-![equation](http://latex.codecogs.com/gif.latex?n) integers
-![equation](http://latex.codecogs.com/gif.latex?C_1%2C%20C_2%2C%20...%2C%20C_n)
-the value of each coin type , where
-![equation](http://latex.codecogs.com/gif.latex?C_1%20%3C%20C_2%20%3C%20C_3%20%3C%20.%20.%20.%20%3C%20C_n%20%3C%201000000000).
-![equation](http://latex.codecogs.com/gif.latex?C_1) equals to ![equation](http://latex.codecogs.com/gif.latex?1).
+First line of the input contains t the number of test cases. Each of the test
+cases starts with n, where (1 <= n <= 1000), the number of different types of
+coin. Next line contains n integers C_1, C_2, ..., C_n the value of each coin
+type, where C_1 < C_2 < C_3 ... < C_n < 1000000000. C_1 equals to 1.
 
 ### Sample Input
 

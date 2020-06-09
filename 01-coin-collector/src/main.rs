@@ -1,5 +1,12 @@
 use std::io;
 
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
+}
+
 /// Finds and prints the amount of coins that can be withdrawn.
 ///
 /// Algorithm explanation
@@ -14,10 +21,7 @@ use std::io;
 fn withdraw(coins : Vec<usize>) {
   let (mut cnt, mut amount) = (1, 0);
   for (i, c) in coins[..(coins.len() - 1)].iter().enumerate() {
-    if coins[i + 1] > amount + c {
-      amount += c;
-      cnt += 1;
-    }
+    if coins[i + 1] > amount + c { amount += c; cnt += 1; }
   }
   println!("{}", cnt);
 }
@@ -25,42 +29,31 @@ fn withdraw(coins : Vec<usize>) {
 /// Read the coins.
 fn read_coins(size: usize) -> Vec<usize> {
   // Get list of coins
-  let mut input = String::new();
-  io::stdin().read_line(&mut input)
-    .expect("Error: Unable to read user input.");
-  // Convert coin value to unsingned integer
-  let coins: Vec<usize> = input.split(" ")
+  let coins: Vec<usize> = read_line().split(' ')
     .map(|s| s.trim().parse::<usize>())
     .filter_map(Result::ok).collect();
   // If the number of coins is greater than the size then return an empty list
-  if coins.len() > size { return vec![]; }
+  if coins.len() > size { panic!("Invalid list of coins.") }
+  // Check if the list of coins is sorted
+  let mut sorted = coins.clone(); sorted.sort(); assert_eq!(coins, sorted);
+  // Check if the last coin value is valid
+  if coins[coins.len() - 1] >= 1000000000 { panic!("Invalid list of coins.") }
   // Return the list of coins
   coins
 }
 
 fn main() {
-  // Get number of test cases
-  let mut input = String::new();
-  io::stdin().read_line(&mut input)
-    .expect("Error: Unable to read user input.");
-  let ntc = input.trim().parse::<usize>();
-  if let Ok(mut ntc) = ntc {
-    // Run test cases
-    while ntc > 0 {
-      // Get number of coins
-      let mut input = String::new();
-      io::stdin().read_line(&mut input)
-        .expect("Error: Unable to read user input.");
-      let nc = input.trim().parse::<usize>();
-      // Check if the number of coins was read
-      if let Ok(nc) = nc {
-        // Read the coins
-        let coins = read_coins(nc);
-        // Find the maximum number of coins collected from a single withdrawal
-        withdraw(coins);
-        // Next test case
-        ntc -= 1;
-      } else { break; }
-    }
+  // Read the number of test cases
+  let ntc = read_line().trim().parse::<usize>()
+    .expect("Error: The given number of test cases is invalid.");
+  // Check if the number of test cases is invalid
+  if ntc > 1000 { panic!("Invalid number of test cases.") }
+  // Run test cases
+  for _ in 0..ntc {
+    // Read the number of coins
+    let nc = read_line().trim().parse::<usize>()
+      .expect("Error: The given number of coins is invalid.");
+    // Find the maximum number of coins collected from a single withdrawal
+    withdraw(read_coins(nc));
   }
 }

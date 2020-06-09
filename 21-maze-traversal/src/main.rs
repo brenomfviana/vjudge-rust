@@ -222,14 +222,14 @@ fn main() {
       // Move robot on the maze
       robot.run_commands(&maze);
       // Check if the current iteration is the first one
-      if itc != Some(ntc - 1) { println!(""); }
+      if itc != Some(ntc - 1) { println!(); }
       // Print last position and orientation of the robot
       print!("{} {} ", robot.p.0, robot.p.1);
       if robot.o == N { print!("N"); }
       if robot.o == S { print!("S"); }
       if robot.o == W { print!("W"); }
       if robot.o == E { print!("E"); }
-      println!("");
+      println!();
       // Next test case
       if let Some(i) = itc { itc = i.checked_sub(1); }
     }

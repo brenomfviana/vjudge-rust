@@ -18,7 +18,7 @@ followed by n integers x1, ..., xn. If n = 0 it signals the end of the input;
 otherwise, t will be a positive integer less than 1000, n will be an integer
 between 1 and 12 (inclusive), and x1, ..., xn will be positive integers less
 than 100. All numbers will be separated by exactly one space. The numbers in
-each list appear in nonincreasing order, and there may be repetitions.
+each list appear in non-increasing order, and there may be repetitions.
 
 ### Sample Input
 
@@ -34,7 +34,7 @@ each list appear in nonincreasing order, and there may be repetitions.
 
 For each test case, first output a line containing 'Sums of ', the total, and a
 colon. Then output each sum, one per line; if there are no sums, output the
-line 'NONE'. The numbers within each sum must appear in nonincreasing order. A
+line 'NONE'. The numbers within each sum must appear in non-increasing order. A
 number may be repeated in the sum as many times as it was repeated in the
 original list. The sums themselves must be sorted in decreasing order based on
 the numbers appearing in the sum. In other words, the sums must be sorted by

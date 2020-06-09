@@ -53,12 +53,14 @@ bac
 cab
 acb
 abc
+
 acb
 cab
 cba
 abc
 bac
 bca
+
 abcd
 bacd
 bcad
