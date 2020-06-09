@@ -1,5 +1,12 @@
 use std::io;
 
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
+}
+
 /// Applies Gale-Shapley's algorithm
 fn gale_shapley(mp: Vec<Vec<usize>>, wp: Vec<Vec<usize>>, nu: usize) {
   // Init couples
@@ -56,12 +63,8 @@ fn get_preferences(size: usize) -> Vec<Vec<usize>> {
   let mut preferences: Vec<Vec<usize>> = vec![];
   // For each partner
   for _ in 0..size {
-    // Get preferences
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
     // Split the preferences line
-    preferences.push(input.split(' ')
+    preferences.push(read_line().split(' ')
       .enumerate()
       .filter(|(i, _)| *i > 0)
       .map(|(_, s)| s.trim().parse::<usize>())
@@ -73,20 +76,12 @@ fn get_preferences(size: usize) -> Vec<Vec<usize>> {
 }
 
 fn main() {
-  // Get number of test cases
-  let mut input = String::new();
-  io::stdin().read_line(&mut input)
-    .expect("Error: Unable to read user input.");
-  // Check if the number of test cases was read
-  if let Ok(mut ntc) = input.trim().parse::<usize>() {
+  // Read the number of test cases
+  if let Ok(mut ntc) = read_line().trim().parse::<usize>() {
     // Run test cases
     while ntc > 0 {
-      // Get number of couples
-      let mut input = String::new();
-      io::stdin().read_line(&mut input)
-        .expect("Error: Unable to read user input.");
-      // Check if the number of couples was read
-      if let Ok(nc) = input.trim().parse::<usize>() {
+      // Read the number of couples
+      if let Ok(nc) = read_line().trim().parse::<usize>() {
         // Read men and women preferences
         let wp = get_preferences(nc);
         let mp = get_preferences(nc);
