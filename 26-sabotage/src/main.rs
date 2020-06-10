@@ -16,20 +16,20 @@ fn read_line() -> String {
 /// Runs the Breadth-First Search and returns true if the node `t` was reached
 /// or false otherwise.
 fn bfs(rgrph: &RawGraph, parent: &mut Vec<isize>, (s, t): Pair) -> bool {
-	// Create visited array
-	let mut visited: Vec<bool> = vec![false; rgrph.len()];
-	// BFS Deque
+  // Create visited array
+  let mut visited: Vec<bool> = vec![false; rgrph.len()];
+  // BFS Deque
   let mut deque: VecDeque<usize> = VecDeque::new(); deque.push_back(s);
-	// Run BFS
+  // Run BFS
   while let Some(u) = deque.pop_front() {
-		// Visit `u` neighbors
+    // Visit `u` neighbors
     for v in 0..rgrph.len() {
-			// Check if the neighbor was not visited yet
-			if !visited[v] && rgrph[u][v] > 0 {
-				parent[v] = u as isize;
-				deque.push_back(v);
-				visited[v] = true;
-			}
+      // Check if the neighbor was not visited yet
+      if !visited[v] && rgrph[u][v] > 0 {
+        parent[v] = u as isize;
+        deque.push_back(v);
+        visited[v] = true;
+      }
     }
   }
   visited[t]
@@ -37,31 +37,31 @@ fn bfs(rgrph: &RawGraph, parent: &mut Vec<isize>, (s, t): Pair) -> bool {
 
 /// Runs Ford-Fulkerson's algorithm and returns the residual graph.
 fn ff(grph: &mut Graph, parent: &mut Vec<isize>, (s, t): Pair) -> Graph {
-	// Clone the graph
-	let mut rgrph = grph.clone();
-	// While there is a path between `s` and `t`
-	while bfs(&rgrph, parent, (s, t)) {
-		// Set min flow
-		let mut residual = std::isize::MAX as usize;
-		// Calculate minimun cost
+  // Clone the graph
+  let mut rgrph = grph.clone();
+  // While there is a path between `s` and `t`
+  while bfs(&rgrph, parent, (s, t)) {
+    // Set min flow
+    let mut residual = std::isize::MAX as usize;
+    // Calculate minimun cost
     let mut v = t;
-		loop {
+    loop {
       if v == s { break }
       let u = parent[v] as usize;
-	  	residual = cmp::min(residual, rgrph[u][v]);
+      residual = cmp::min(residual, rgrph[u][v]);
       v = u;
-	  }
-		// Calculate residual graph
+    }
+    // Calculate residual graph
     let mut v = t;
-		loop {
+    loop {
       if v == s { break }
       let u = parent[v] as usize;
-	  	rgrph[v][u] += residual;
+      rgrph[v][u] += residual;
       rgrph[u][v] -= residual;
       v = u;
-	  }
-	}
-	// Return residual graph
+    }
+  }
+  // Return residual graph
   rgrph
 }
 
@@ -69,29 +69,29 @@ fn ff(grph: &mut Graph, parent: &mut Vec<isize>, (s, t): Pair) -> Graph {
 fn dfs(rgrph: &RawGraph, s: usize, visited: &mut Vec<bool>) {
   visited[s] = true;
   for i in 0..rgrph.len() {
-		if rgrph[s][i] != 0 && !visited[i] { dfs(rgrph, i, visited); }
-	}
+    if rgrph[s][i] != 0 && !visited[i] { dfs(rgrph, i, visited); }
+  }
 }
 
 /// Finds the cables that need to be cutted between the cities `s` and `t`.
 fn solve(mut grph: Graph) {
-	// Set capital and largest city
+  // Set capital and largest city
   let (s, t): (usize, usize) = (0, 1);
   // Parent vector
   let mut parent: Vec<isize> = vec![-1; grph.len()];
-	// Run Ford-Fulkerson's algorithm
+  // Run Ford-Fulkerson's algorithm
   let rgrph = ff(&mut grph, &mut parent, (s, t));
-	// Create visited array
-	let mut visited = vec![false; rgrph.len()];
+  // Create visited array
+  let mut visited = vec![false; rgrph.len()];
   // Run DFS to find the nodes reached from `s`
-	dfs(&rgrph, s, &mut visited);
-	// Print solution
-	for i in 0..rgrph.len() {
-		if !visited[i] { continue; }
-	  for (j, _) in visited.iter().enumerate().take(rgrph.len()) {
-			if !visited[j] && grph[i][j] != 0 { println!("{} {}", i + 1, j + 1); }
-	  }
-	}
+  dfs(&rgrph, s, &mut visited);
+  // Print solution
+  for i in 0..rgrph.len() {
+    if !visited[i] { continue; }
+    for (j, _) in visited.iter().enumerate().take(rgrph.len()) {
+      if !visited[j] && grph[i][j] != 0 { println!("{} {}", i + 1, j + 1); }
+    }
+  }
 }
 
 fn main() {
