@@ -17,22 +17,22 @@ fn solve(grph: Graph) -> bool {
   // Applies Bellman-Ford's Algorithm
   for _ in 0..(grph.len() - 1) {
     for i in 0..grph.len() {
-			for j in 0..grph[i].len() {
-				let (v, w) = grph[i][j];
-				if distance[v] > (distance[i] + w as i64) {
+      for j in 0..grph[i].len() {
+        let (v, w) = grph[i][j];
+        if distance[v] > (distance[i] + w as i64) {
           distance[v] = distance[i] + w as i64;
         }
-			}
+      }
     }
   }
   // Check if there is a negative cycle
   for i in 0..grph.len() {
     for j in 0..grph[i].len() {
-			let (v, w) = grph[i][j];
-			if distance[v] > distance[i] + w as i64 { return true; }
-		}
+      let (v, w) = grph[i][j];
+      if distance[v] > distance[i] + w as i64 { return true; }
+    }
   }
-	false
+  false
 }
 
 /// Reads the wormholes and returns the corresponding graph.

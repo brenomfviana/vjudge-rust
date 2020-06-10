@@ -23,16 +23,16 @@ fn solve(grph: Graph, s: usize, t: usize) -> usize {
   // Repeat until the queue is empty
   while let Some((d, u)) = deque.pop_front() {
     // Consume element already visited elements
-		if d > latency[u] { continue; }
-		// Visit all adjacent nodes
-		for (v, l) in grph[u].iter() {
-			// Check if we need relax the edge
-			if latency[*v] > latency[u] + l {
-				latency[*v] = latency[u] + l;
-				parent[*v] = u;
-				deque.push_back((latency[*v], *v));
-			}
-		}
+    if d > latency[u] { continue; }
+    // Visit all adjacent nodes
+    for (v, l) in grph[u].iter() {
+      // Check if we need relax the edge
+      if latency[*v] > latency[u] + l {
+        latency[*v] = latency[u] + l;
+        parent[*v] = u;
+        deque.push_back((latency[*v], *v));
+      }
+    }
   }
   latency[t]
 }
