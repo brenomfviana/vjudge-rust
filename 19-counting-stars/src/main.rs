@@ -2,30 +2,33 @@ use std::io;
 
 type Sky = Vec<Vec<char>>;
 
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
+}
+
 fn main() {
+  let mut itc = 0;
   loop {
-    // Read the input
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
+    itc += 1;
+    // If this is the 1000th test case, stop the program
+    if itc > 1000 { println!("Invalid number of test cases."); break }
     // Get values
-    let values: Vec<usize> = input.split(" ")
+    let values: Vec<usize> = read_line().split(' ')
       .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
     // Check if the read data is invalid
     if values.len() != 2 { break; }
     let (r, c) = (values[0], values[1]);
     // Check if the read data is invalid
-    if r < 1 || c < 1 || r > 101 || c > 101 { break; }
+    if r > 101 || c > 101 { panic!("Invalid sky row or col.") }
     // Read the stars
     let mut sky: Sky = vec![vec!['.'; c]; r];
-    for i in 0..r {
-      // Read the input
-      let mut input = String::new();
-      io::stdin().read_line(&mut input)
-        .expect("Error: Unable to read user input.");
+    for i in sky.iter_mut().take(r) {
       // Update sky
-      sky[i] = input.split("").map(|s| s.trim().parse::<char>())
+      *i = read_line().split("").map(|s| s.trim().parse::<char>())
         .filter_map(Result::ok).collect();
     }
     // Find the number of starts that can be seen in the sky

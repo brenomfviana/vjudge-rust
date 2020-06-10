@@ -1,22 +1,27 @@
 use std::io;
 
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
+}
+
 fn main() {
   loop {
     // Read input
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
+    let mut input = read_line();
     // Check if the end condition is valid
 		if input == "0 Fuel consumption 0" { break; }
     // Initialize control variables
 		let (mut fuel, mut tank) = (0f64, 0f64);
 		let (mut dist, mut cnsmptn, mut leak): (f64, f64, f64) = (0f64, 0f64, 0f64);
-    // Calcultes the
+    // Calcultes the -------
 		loop {
       // Auxiliary variables
       let (mut n, mut c): (f64, f64) = (0f64, 0f64);
       // Get input values
-      let values: Vec<String> = input.split(" ")
+      let values: Vec<String> = input.split(' ')
         .map(|s| s.trim().to_string()).collect();
       // Get info from values
       if values.len() <= 3 {
@@ -44,9 +49,7 @@ fn main() {
       // Update the reached distance
 			dist = n;
       // Reset current input and get next input
-      input = String::new();
-      io::stdin().read_line(&mut input)
-        .expect("Error: Unable to read user input.");
+      input = read_line();
 		}
     // Print solution
     println!("{:.3}", tank);

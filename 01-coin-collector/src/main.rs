@@ -34,10 +34,10 @@ fn read_coins(size: usize) -> Vec<usize> {
     .filter_map(Result::ok).collect();
   // If the number of coins is greater than the size then return an empty list
   if coins.len() > size { panic!("Invalid list of coins.") }
-  // Check if the list of coins is sorted
-  let mut sorted = coins.clone(); sorted.sort(); assert_eq!(coins, sorted);
-  // Check if the last coin value is valid
-  if coins[coins.len() - 1] >= 1000000000 { panic!("Invalid list of coins.") }
+  // Check if the coin with the highest value is valid
+  if coins.iter().max() >= Some(&1000000000) {
+    panic!("Invalid list of coins.")
+  }
   // Return the list of coins
   coins
 }

@@ -4,6 +4,13 @@ use std::cmp;
 const MAX: usize = 200;
 const CARS: usize = 2;
 
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
+}
+
 /// Returns true if the suitcases fit on all car trunks and false otherwise.
 fn solve(weights: Vec<usize>, weight_sum: usize) -> bool {
   // Check if the sum of weights are multiple of the number of CARS
@@ -30,33 +37,25 @@ fn solve(weights: Vec<usize>, weight_sum: usize) -> bool {
   // Since half of suitcases weigh together `max_suitcase`, we can check if the
   // suitcases that we add to a car has the same total weight, and if this is
   // true, then it means that we can divide the suitcases between the cars
-  return memory[weights.len() - 1][max_suitcase] == max_suitcase;
+  memory[weights.len() - 1][max_suitcase] == max_suitcase
 }
 
 fn main() {
-  // Read number of test cases
-  let mut input = String::new();
-  io::stdin().read_line(&mut input)
-    .expect("Error: Unable to read user input.");
-  let ntc = input.trim().parse::<isize>();
-  // Check if the number of test cases was read
-  if let Ok(mut ntc) = ntc {
-    // Run test cases
-    while ntc > 0 {
-      // A vector to hold all the weights of each suitcases
-      let mut input = String::new();
-      io::stdin().read_line(&mut input)
-        .expect("Error: Unable to read user input.");
-      let weights: Vec<usize> = input.split(" ")
-        .map(|s| s.trim().parse::<usize>())
-        .filter_map(Result::ok).collect();
-      // Get the sum of the weights
-      let sum: usize = weights.iter().sum();
-      // Solve and print the solution
-      if solve(weights, sum) { println!("YES"); }
-      else { println!("NO"); }
-      // Next test case
-      ntc -= 1;
-    }
+  // Read the number of test cases
+  let ntc = read_line().trim().parse::<isize>()
+    .expect("Error: The given number of test cases is invalid.");
+  // Run test cases
+  for _ in 0..ntc {
+    // Read the vector of weights of each suitcases
+    let weights: Vec<usize> = read_line().split(' ')
+      .map(|s| s.trim().parse::<usize>())
+      .filter_map(Result::ok).collect();
+    // Check if the size of the weight array is invalid
+    if weights.len() > 20 { panic!("Invalid number of weights.") }
+    // Get the sum of the weights
+    let sum: usize = weights.iter().sum();
+    // Solve and print the solution
+    if solve(weights, sum) { println!("YES"); }
+    else { println!("NO"); }
   }
 }

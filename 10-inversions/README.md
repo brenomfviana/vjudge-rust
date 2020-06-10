@@ -9,9 +9,8 @@ Write a program that count the number of inversions of an array.
 
 The first line of input contains an integer T denoting the no of test cases.
 Then T test cases follow. Each test case contains two lines.
-The first line contains an integer n (1 <= n <= 10000)
-denoting the size of the array.
-The next line contains the array values (1<= v <= 30000).
+The first line contains an integer n (1 <= n <= 10000) denoting the size of the
+array. The next line contains the array values (1 <= v <= 30000).
 
 ### Sample Input
 

@@ -13,14 +13,16 @@ fn main() {
   let mut i = 0;
   // Start program
   loop {
-    // Get number of bachelors and spinsters
-    let nm: Vec<String> = read_line().split(" ")
+    // Read the number of bachelors and spinsters
+    let nm: Vec<String> = read_line().split(' ')
       .map(|s| s.trim().to_string()).collect();
     // Convert values
     let nb = nm[0].parse::<usize>()
       .expect("Error: The given number of bachelors is invalid.");
     let ns = nm[1].parse::<usize>()
       .expect("Error: The given number of spinsters is invalid.");
+    // Check if the end condition was reached
+    if nb == 0 && ns == 0 { break; }
     // Check if the number of bachelors and spinsters are valid
     if nb >= 10000 && ns >= 10000 {
       panic!("Invalid number of bachelors and spinsters.")
@@ -40,7 +42,7 @@ fn main() {
     // youngest of them we can just print zero, if number of bachelors is
     // less than the the number of spinsters, print the subtraction of the
     // number of bachelors by the the number of spinsters.
-    if nb <= ns { println!("Case {}: {}", i + 1, 0); }
+    if nb <= ns { println!("Case {}: 0", i + 1); }
     else { println!("Case {}: {} {}", i + 1, nb - ns, minlbage); }
     i += 1;
   }

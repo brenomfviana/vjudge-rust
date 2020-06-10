@@ -1,5 +1,12 @@
 use std::io;
 
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
+}
+
 /// Concats two arrays, counts the number of inversions and returns the number
 /// of inversions and the concated array.
 fn concat(arr1: Vec<usize>, arr2: Vec<usize>) -> (usize, Vec<usize>) {
@@ -21,7 +28,7 @@ fn concat(arr1: Vec<usize>, arr2: Vec<usize>) -> (usize, Vec<usize>) {
     } else if larr1 > i && larr2 <= j {
       arr.push(arr1[i]);
       i += 1;
-      if arr.len() > 0 && larr2 > 1 { inv += 1; }
+      if !arr.is_empty() && larr2 > 1 { inv += 1; }
     } else if larr1 <= i && larr2 > j {
       arr.push(arr2[j]);
       j += 1;
@@ -48,32 +55,26 @@ fn solve(array: Vec<usize>) -> (usize, Vec<usize>) {
 }
 
 fn main() {
-  // Read number of test cases
-  let mut input = String::new();
-  io::stdin().read_line(&mut input)
-    .expect("Error: Unable to read user input.");
-  let ntc = input.trim().parse::<usize>();
-  // Check if the number of test cases was read
-  if let Ok(mut ntc) = ntc {
-    // Run test cases
-    while ntc > 0 {
-      // Read array size
-      let mut input = String::new();
-      io::stdin().read_line(&mut input)
-        .expect("Error: Unable to read user input.");
-      let _ = input.trim().parse::<usize>().unwrap();
-      // Read array
-      let mut input = String::new();
-      io::stdin().read_line(&mut input)
-        .expect("Error: Unable to read user input.");
-      let array: Vec<usize> = input.split(" ")
-        .map(|s| s.trim().parse::<usize>())
-        .filter_map(Result::ok).collect();
-      // Find the number of inversions
-      let (inv, _) = solve(array);
-      println!("{}", inv);
-      // Next test case
-      ntc -= 1;
-    }
+  // Read the number of test cases
+  let ntc = read_line().trim().parse::<usize>()
+    .expect("Error: The given number of test cases is invalid.");
+  // Run test cases
+  for _ in 0..ntc {
+    // Read array size
+    let asize = read_line().trim().parse::<usize>()
+      .expect("Error: The given array size is invalid.");
+    // Check if the array size is invalid
+    if asize > 10000 { panic!("Invalid array size.") }
+    // Read array
+    let array: Vec<usize> = read_line().split(' ')
+      .map(|s| s.trim().parse::<usize>())
+      .filter_map(Result::ok).collect();
+    // Check if the element with the highest value is valid
+    if array.iter().max() >= Some(&30000) { panic!("Invalid array.") }
+    // Check if the array size matches to the read array size
+    assert_eq!(asize, array.len());
+    // Find the number of inversions
+    let (inv, _) = solve(array);
+    println!("{}", inv);
   }
 }

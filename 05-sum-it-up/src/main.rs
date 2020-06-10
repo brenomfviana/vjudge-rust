@@ -49,10 +49,10 @@ fn main() {
     let (goal, _) = (data[0], data[1]);
     // Check if the goal is invalid
     if goal >= 1000 { panic!("Invalid goal.") }
-    // Get numbers
+    // Get the numbers
     let numbers: Vec<usize> = data[2..].to_vec();
-    // Check if the numbers are invalid
-    for &n in &numbers { if n >= 100 { panic!("{} is an invalid number.", n) } }
+    // Check if the number with the highest value is valid
+    if numbers.iter().max() >= Some(&100) { panic!("Invalid list of numbers.") }
     // Fint combinations
     let mut solutions: Vec<Vec<usize>> = vec![];
     println!("Sums of {}:", goal);

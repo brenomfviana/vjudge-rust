@@ -5,7 +5,7 @@ const INFINITY: isize = std::i16::MAX as isize;
 type Graph = Vec<Vec<isize>>;
 
 /// Calculates the average length between pages and return it.
-fn solve(grph: &mut Graph, nodes: &Vec<usize>) -> f64 {
+fn solve(grph: &mut Graph, nodes: &[usize]) -> f64 {
   // Run Floyd-Warshall's Algorithm
   for k in 0..nodes.len() {
     for i in 0..nodes.len() { if k == i { continue; }
@@ -40,35 +40,33 @@ fn read_graph() -> (Graph, Vec<usize>) {
   let mut input = String::new();
   io::stdin().read_line(&mut input)
     .expect("Error: Unable to read user input.");
-  let edges: Vec<usize> = input.split(" ")
+  let edges: Vec<usize> = input.split(' ')
     .map(|s| s.trim().parse::<usize>())
     .filter_map(Result::ok).collect();
-  // Check if the read data is invalid
-  if edges.len() % 2 != 0 { panic!("Invalid file."); }
+  // Check if the number of edges is invalid
+  if edges.len() % 2 != 0 { panic!("Invalid number of edges."); }
   // Get build the graph according with the max element
-  if let Some(&max) = edges.iter().max() {
-    // Build graph
-    let mut grph: Graph = vec![vec![INFINITY; max]; max];
-    let mut nodes = vec![];
-    // Add elements
-    let mut k = 0;
-    loop {
-      // Check if the end condition was reached
-      if edges[k] == 0 && edges[k + 1] == 0 { break; }
-      // Add an edge
-      let (i, j) = (edges[k] - 1, edges[k + 1] - 1);
-      grph[i][j] = 1;
-      // Add indexes
-      if !nodes.contains(&i) { nodes.push(i); }
-      if !nodes.contains(&j) { nodes.push(j); }
-      // Next edge
-      k += 2;
-    }
-    // Return graph
-    nodes.sort();
-    return (grph, nodes);
+  let max = *edges.iter().max().expect("Invalid max element.");
+  // Build graph
+  let mut grph: Graph = vec![vec![INFINITY; max]; max];
+  let mut nodes = vec![];
+  // Add elements
+  let mut k = 0;
+  loop {
+    // Check if the end condition was reached
+    if edges[k] == 0 && edges[k + 1] == 0 { break; }
+    // Add an edge
+    let (i, j) = (edges[k] - 1, edges[k + 1] - 1);
+    grph[i][j] = 1;
+    // Add indexes
+    if !nodes.contains(&i) { nodes.push(i); }
+    if !nodes.contains(&j) { nodes.push(j); }
+    // Next edge
+    k += 2;
   }
-  (vec![], vec![])
+  // Return graph
+  nodes.sort();
+  (grph, nodes)
 }
 
 fn main() {

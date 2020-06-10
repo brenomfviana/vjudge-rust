@@ -25,6 +25,7 @@ pixels are non-empty.
 
 The input file contains at most 1000 sets of inputs. The description of each
 set is given below:
+
 Each set starts with two integer number r and c (0 < r, c < 101), which
 indicates the row and column number of the image to follow. Next r rows
 describe the sky as mentioned in the problem statement. Input is terminated by

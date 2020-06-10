@@ -9,6 +9,13 @@ type AdjMtx = HashMap<char, AdjLst>;
 // In-degree of vertices
 type InDegree = HashMap<char, usize>;
 
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
+}
+
 /// Apply topological sorting (based on Kahn’s algorithm) on the vocabulary
 /// (graph) and return a string with the sorted nodes.
 fn solve(grph: AdjMtx) -> String {
@@ -42,7 +49,7 @@ fn solve(grph: AdjMtx) -> String {
   // Check if there was a cycle
   if cnt != grph.keys().len() {
     println!("There exists a cycle in the graph\n");
-    return String::from("");
+    return String::from("")
   }
   // Return final result
   order
@@ -55,9 +62,7 @@ fn main() {
     // Create adjacency matrix
     let mut grph: AdjMtx = HashMap::new();
     // Read the input
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
+    let input = read_line();
     // Check if the end condition was reached
     if input == "" { break; }
     // Read the first line
@@ -65,6 +70,8 @@ fn main() {
       .filter_map(Result::ok).collect();
     // Read all words
     while ln != vec!['#'] {
+      // Check if the string is invalid
+      if ln.len() > 20 { panic!("Invalid string.") }
       // Check if the next line was read
       if ln != vec![] {
         // Compare current line with the previous one
@@ -75,7 +82,7 @@ fn main() {
             if let Some(adjlst) = grph.get_mut(&pln[i]) { adjlst.push(ln[i]); }
             else { grph.insert(pln[i], vec![ln[i]]); }
             // If the node was not added yet then add it
-            if let None = grph.get_mut(&ln[i]) { grph.insert(ln[i], vec![]); }
+            if grph.get_mut(&ln[i]).is_none() { grph.insert(ln[i], vec![]); }
             break;
           }
         }
@@ -83,10 +90,7 @@ fn main() {
         pln = ln;
       }
       // Read the next line
-      let mut input = String::new();
-      io::stdin().read_line(&mut input)
-        .expect("Error: Unable to read user input.");
-      ln = input.split("").map(|s| s.trim().parse::<char>())
+      ln = read_line().split("").map(|s| s.trim().parse::<char>())
         .filter_map(Result::ok).collect();
     }
     // Run topological sort and print result

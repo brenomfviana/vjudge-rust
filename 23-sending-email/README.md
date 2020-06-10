@@ -16,7 +16,7 @@ is no delay incurred at any of the servers.
 
 The first line of input gives the number of cases, N. N test cases follow. Each
 one starts with a line containing n (2 < n < 20000), m (0 < m < 50000),
-S (0 < S < n) and T (0 < T< n). S != T. The next m lines will each contain 3
+S (0 < S < n) and T (0 < T < n). S != T. The next m lines will each contain 3
 integers: 2 different servers (in the range [0;n_1]) that are connected by a
 bidirectional cable and the latency, w, along this cable (0 < w < 10000).
 

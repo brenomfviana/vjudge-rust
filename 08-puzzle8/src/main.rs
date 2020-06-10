@@ -16,17 +16,18 @@ impl Edge {
 fn read_board() -> usize {
   // Read a full puzzle
   let mut input = String::new();
-  for _ in 0..3 {
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
-  }
-  let data = &input.trim().to_string();
+  for _ in 0..3 { io::stdin().read_line(&mut input)
+    .expect("Error: Unable to read user input."); }
+  // Clear invisible characters
+  let data = &input.split('\n').into_iter().map(|s| s.split(' ')
+    .into_iter().filter(|s| s != &"").collect::<Vec<&str>>().join(""))
+    .filter(|s| !s.is_empty()).collect::<Vec<String>>().join("");
   // Check if the puzzle is valid
-  if data.len() != 17 { return 0; }
+  if data.len() != 9 { return 0; }
   // Initialize the current board state
   let mut board: usize = 0;
   for c in data.chars() {
-    if let Some(c) = c.to_digit(10) { board = board * 10 + c as usize; }
+    board = board * 10 + c.to_digit(10).expect("Invalid board piece.") as usize;
   }
   // Return the board
   board
@@ -46,12 +47,10 @@ fn build_state_graph() -> HashMap<usize, Edge> {
   while let Some(state) = deque.pop_front() {
     // Build board
     let mut aux = state;
-    for i in (0..=2).rev() {
-      for j in (0..=2).rev() {
-        board[i][j] = aux % 10;
-        aux = aux / 10;
-      }
-    }
+    for i in (0..=2).rev() { for j in (0..=2).rev() {
+      board[i][j] = aux % 10;
+      aux /= 10;
+    } }
     // Apply horizontal moves
     for i in 0..3 {
       // Perform moves
@@ -62,18 +61,18 @@ fn build_state_graph() -> HashMap<usize, Edge> {
       }
       // Get the corresponding state key
       let mut from: usize = 0;
-      for j in 0..3 {
-        for k in 0..3 {
-          from = from * 10 + board[j][k];
-        }
-      }
-      // Build edge and add to the state graph
-      if !state_graph.contains_key(&from) {
+      for j in board.iter().take(3) { for k in j.iter().take(3) {
+        from = from * 10 + k;
+      } }
+      // Check if the key `from` have been added in the state graph
+      if !state_graph.contains_key(&from) { deque.push_back(from); }
+      if deque.back() == Some(&from) {
+        // Build edge
         let mut edge = Edge::new();
         edge.to = state;
         edge.label = format!("{}{}", "H", i + 1);
-        state_graph.insert(from, edge);
-        deque.push_back(from);
+        // Add to the state graph
+        state_graph.entry(from).or_insert(edge);
       }
       // Undo move
       let aux = board[i][2];
@@ -92,18 +91,18 @@ fn build_state_graph() -> HashMap<usize, Edge> {
       }
       // Get the corresponding state key
       let mut from: usize = 0;
-      for j in 0..3 {
-        for k in 0..3 {
-          from = from * 10 + board[j][k];
-        }
-      }
-      // Build edge and add to the state graph
-      if !state_graph.contains_key(&from) {
+      for i in board.iter().take(3) { for k in i.iter().take(3) {
+        from = from * 10 + k;
+      } }
+      // Check if the key `from` have been added in the state graph
+      if !state_graph.contains_key(&from) { deque.push_back(from); }
+      if deque.back() == Some(&from) {
+        // Build edge
         let mut edge = Edge::new();
         edge.to = state;
         edge.label = format!("{}{}", "V", j + 1);
-        state_graph.insert(from, edge);
-        deque.push_back(from);
+        // Add to the state graph
+        state_graph.entry(from).or_insert(edge);
       }
       // Undo move
       let aux = board[0][j];
@@ -121,11 +120,13 @@ fn solve(state_graph: &HashMap<usize, Edge>, state: usize, mut moves: String)
   -> String {
     // Check if the goal was reached or if the state is invalid
     if state == GOAL || !state_graph.contains_key(&state) { return moves; }
-    // Add move
-    let edge = state_graph.get(&state).unwrap();
+    // Get the edge that comes out of the current state
+    let edge = state_graph.get(&state)
+      .expect("There is something wrong in the state graph.");
+    // Add the corresponding move to reach the state
     moves.push_str(&edge.label);
     // Keep searching
-    return solve(state_graph, edge.to, moves);
+    solve(state_graph, edge.to, moves)
 }
 
 fn main() {

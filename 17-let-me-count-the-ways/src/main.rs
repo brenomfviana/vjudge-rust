@@ -5,7 +5,7 @@ use std::collections::HashMap;
 const NOC: usize = 5;
 
 // List of all coins
-const COINS: &'static [u64] = &[1, 5, 10, 25, 50];
+const COINS: &[u64] = &[1, 5, 10, 25, 50];
 
 /// Finds the number of ways to receive `x` cents change.
 fn solve(change: u64) -> u64 {
@@ -16,7 +16,7 @@ fn solve(change: u64) -> u64 {
   for i in 0..NOC {
     for j in COINS[i]..=change {
       // Insert the ways to produce the change `j`
-      if let None = cache.get(&j) { cache.insert(j, cache[&(j - COINS[i])]); }
+      if cache.get(&j).is_none() { cache.insert(j, cache[&(j - COINS[i])]); }
       // Update the ways to produce the change `j`
       else { cache.insert(j, cache[&j] + cache[&(j - COINS[i])]); }
     }
@@ -33,14 +33,16 @@ fn main() {
       .expect("Error: Unable to read user input.");
     // Check if the end condition was reached
     if input == "" { break; }
+    // Convert input to number
+    let change = input.trim().parse::<u64>()
+      .expect("Error: The given change is invalid.");
     // Check if the input is valid
-    if let Ok(change) = input.trim().parse::<u64>() {
-      // Find the number of ways to receive `x` cents change
-      let ways = solve(change);
-      // Print solution
-      if ways == 1 { print!("There is only 1 way "); }
-      else { print!("There are {} ways ", ways); }
-      println!("to produce {} cents change.", change);
-    }
+    if change > 30000 { panic!("The change is too big.") }
+    // Find the number of ways to receive `x` cents change
+    let ways = solve(change);
+    // Print solution
+    if ways == 1 { print!("There is only 1 way "); }
+    else { print!("There are {} ways ", ways); }
+    println!("to produce {} cents change.", change);
   }
 }

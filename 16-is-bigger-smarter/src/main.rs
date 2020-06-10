@@ -27,9 +27,10 @@ impl Ord for Elephant {
 }
 
 type Bunch = Vec<Elephant>;
+type RawBunch = [Elephant];
 
 /// Finds the largest decreasing sequence of smallest and smartest elephants.
-fn solve(elephants: &Bunch) -> Vec<usize> {
+fn solve(elephants: &RawBunch) -> Vec<usize> {
   // Cache to save the largest sequences from each elephant
   let mut cache: Vec<usize> = vec![0; elephants.len()];
   // Next elephants of the largest sequences
@@ -74,6 +75,8 @@ fn main() {
   let mut id = 1;
   // Read all elephants
   loop {
+    // Check if the bunch of elephants is too big
+    if elephants.len() >= 1000 { panic!("The bunch of elephants is too big.") }
     // Read an elephant
     let mut input = String::new();
     io::stdin().read_line(&mut input)
@@ -81,15 +84,15 @@ fn main() {
     // Check if there is no more elephants to add
     if input == "" { break; }
     // Get the elephant data
-    let elephant: Vec<usize> = input.split(" ")
+    let elephant: Vec<usize> = input.split(' ')
       .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
     // Check if the read data is invalid
-    if elephant.len() == 0 || elephant.len() > 2 { break; }
+    if elephant.is_empty() || elephant.len() > 2 { break; }
     // Get the elephant data
     let (kg, iq) = (elephant[0], elephant[1]);
     // Check if the read data is invalid
-    if kg < 1 && iq < 1 && kg > 10000 && iq > 10000 { return (); }
+    if kg > 10000 || iq > 10000 { panic!("Invalid elephant data.") }
     // Add elephants
     elephants.push(Elephant { id, kg, iq });
     // Update id

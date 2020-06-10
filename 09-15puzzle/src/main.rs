@@ -5,15 +5,16 @@ use std::hash::{Hash, Hasher};
 /// Defines alias.
 type Position = (usize, usize);
 type Board = Vec<Vec<usize>>;
+type RawBoard = [Vec<usize>];
 type GoalMap = HashMap<usize, Position>;
 type Cost = Option<usize>; // None represents positive infinity
 
 /// Board dimension.
 const D: usize = 4;
 /// Posible move directions.
-const DIRS: &'static [(i32, i32)] = &[(-1, 0), (1, 0), (0, -1), (0, 1)];
+const DIRS: &[(i32, i32)] = &[(-1, 0), (1, 0), (0, -1), (0, 1)];
 /// Board goal.
-const GOAL: &'static [&'static [usize]] =
+const GOAL: &[&[usize]] =
   &[&[1, 2, 3, 4], &[5, 6, 7, 8], &[9, 10, 11, 12], &[13, 14, 15, 0]
 ];
 
@@ -53,9 +54,20 @@ fn goal_map() -> GoalMap {
   // Initialize goal map
   let mut goal_map: GoalMap = HashMap::new();
   // Add the element positions mapped by the elements
-  for i in 0..D { for j in 0..D { goal_map.insert(GOAL[i][j], (i, j)); } }
+  for (i, _) in GOAL.iter().enumerate().take(D) {
+    for (j, _) in GOAL.iter().enumerate().take(D) {
+      goal_map.insert(GOAL[i][j], (i, j));
+    }
+  }
   // Return goal map
   goal_map
+}
+
+/// Reads a user input line.
+fn read_line() -> String {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
+  input
 }
 
 /// Reads the input from the user and returns a puzzle configuration.
@@ -63,12 +75,9 @@ fn read_board() -> Board {
   // Initialize an empty board
   let mut board: Board = vec![vec![0; D]; D];
   // Read a full puzzle
-  for i in 0..D {
+  for (i, _) in GOAL.iter().enumerate().take(D) {
     // Read a puzzle line
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)
-      .expect("Error: Unable to read user input.");
-    let row: Vec<usize> = input.split(" ")
+    let row: Vec<usize> = read_line().split(' ')
       .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
     board[i] = row;
@@ -78,15 +87,17 @@ fn read_board() -> Board {
 }
 
 /// Finds position of blank from bottom.
-fn find_blank_position(board: &Board) -> Position {
-  for i in 0..=3 { for j in 0..=3 {
-    if board[i][j] == 0 { return (i, j); }
-  } }
+fn find_blank_position(board: &RawBoard) -> Position {
+  for (i, _) in board.iter().enumerate().take(4) {
+    for (j, _) in board.iter().enumerate().take(4) {
+      if board[i][j] == 0 { return (i, j); }
+    }
+  }
   (D + 1, D + 1)
 }
 
 /// Checks if the given boad is solvable.
-fn is_solvable(board: &Board) -> bool {
+fn is_solvable(board: &RawBoard) -> bool {
   // Count the number of inversions
   let mut count = 0;
   // Row where the black block is
@@ -113,7 +124,7 @@ fn is_solvable(board: &Board) -> bool {
 }
 
 // Calculates the heuristic cost.
-fn h(board: &Board, goal: &GoalMap) -> usize {
+fn h(board: &RawBoard, goal: &GoalMap) -> usize {
   // The minimun cost is the search depth
   let mut cost = 0;
   // Calculates the manhattan distance from the element's current position
@@ -180,11 +191,11 @@ fn search(bound: usize, current: State, goal: &GoalMap,
         // Keep searching
         let state = search(bound, next, goal, visited);
         // Check if the goal was reached
-        if state.board == GOAL { return state; }
+        if state.board == GOAL { return state }
         // Update minimun depth
         if min == None { min = state.cost; }
         if let (Some(m), Some(c)) = (min, state.cost) {
-          if m > c { min = state.cost;}
+          if m > c { min = state.cost; }
         }
       }
     }
@@ -201,37 +212,35 @@ fn solve(board: Board, goal: &GoalMap) -> String {
   // Visited states list
   let mut visited: HashMap<State, String> = HashMap::new();
   // Initialize the bound of search depth
-  let mut bound = cost.clone().unwrap();
+  let mut bound = cost.clone().expect("Invalid cost.");
   loop {
+    // Clear visited list
     visited.clear();
     // Search for the goal
     let state = search(bound, istate.clone(), &goal, &mut visited);
     // Check if the solution was found
     if state.board == GOAL { return state.moves; }
     // Check if the cost is infinite
-    else if let None = state.cost { return String::new(); }
+    else if state.cost.is_none() { return String::new(); }
     // Update bound of search cost
     else if let Some(cost) = state.cost { bound = cost; }
     // Check if the end condition is valid
-    if bound >= 50 { return String::new(); }
+    if bound >= 50 { return String::new() }
   }
 }
 
 fn main() {
   // Initialize goal map
   let goal_map = goal_map();
-  // Get number of test cases
-  let mut input = String::new();
-  io::stdin().read_line(&mut input).expect("Error: Unable to read user input.");
-  // Check if the number of test cases was read
-  if let Ok(ntc) = input.trim().parse::<usize>() {
-    // Run test cases
-    for _ in 0..ntc {
-      // Read puzzle board
-      let board = read_board();
-      // Check if the puzzle is solvable and print solution
-      if is_solvable(&board) { println!("{}", solve(board, &goal_map)); }
-      else { println!("This puzzle is not solvable."); }
-    }
+  // Read the number of test cases
+  let ntc = read_line().trim().parse::<usize>()
+    .expect("Error: The given number of test cases is invalid.");
+  // Run test cases
+  for _ in 0..ntc {
+    // Read puzzle board
+    let board = read_board();
+    // Check if the puzzle is solvable and print solution
+    if is_solvable(&board) { println!("{}", solve(board, &goal_map)); }
+    else { println!("This puzzle is not solvable."); }
   }
 }

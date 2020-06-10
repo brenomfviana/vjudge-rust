@@ -11,7 +11,7 @@ are increasing, but the IQ’s are decreasing.
 ## Input
 
 The input will consist of data for a bunch of elephants, one elephant per line,
-terminated by the endof-file. The data for a particular elephant will consist
+terminated by the end-of-file. The data for a particular elephant will consist
 of a pair of integers: the first representing its size in kilograms and the
 second representing its IQ in hundredths of IQ points. Both integers are between
 1 and 10000. The data will contain information for at most 1000 elephants. Two
