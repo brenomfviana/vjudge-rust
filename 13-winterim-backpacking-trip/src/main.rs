@@ -65,6 +65,9 @@ fn main() {
     let params: Vec<usize> = input.split(' ')
       .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
+    // Check if the number of campsites and the nights of the trip are invalid
+    if params.len() != 2 { panic!("Invalid campsites and nights of the trip.") }
+    // Assign the number of campsites and the number of nights of the trip
     let (nc, nnt) = (params[0], params[1]);
     // Check if the read values are invalid
     if nc > 600 { panic!("Invalid number of campsites.") }

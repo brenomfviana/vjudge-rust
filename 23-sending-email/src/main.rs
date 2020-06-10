@@ -49,7 +49,7 @@ fn read_server_config() -> (Graph, usize, usize) {
     .map(|s| s.trim().parse::<usize>())
     .filter_map(Result::ok).collect();
   // Check if the read data is invalid
-  if server.len() != 4 { panic!("Invalid server."); }
+  if server.len() != 4 { panic!("Invalid server.") }
   // Assign the server config to the respective variables
   let (n, m, s, t) = (server[0], server[1], server[2], server[3]);
   // Check if the server config is invalid
@@ -68,7 +68,7 @@ fn read_server_config() -> (Graph, usize, usize) {
     let conn: Vec<usize> = input.split(' ')
       .map(|s| s.trim().parse::<usize>())
       .filter_map(Result::ok).collect();
-    // Check if hte connection is invalid
+    // Check if the connection is invalid
     if conn.len() != 3 { panic!("Invalid file.") }
     // Get from and to servers and their connection latency
     let (f, t, l) = (conn[0], conn[1], conn[2]);

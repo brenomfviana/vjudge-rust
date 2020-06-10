@@ -16,7 +16,7 @@ fn main() {
     // Initialize control variables
 		let (mut fuel, mut tank) = (0f64, 0f64);
 		let (mut dist, mut cnsmptn, mut leak): (f64, f64, f64) = (0f64, 0f64, 0f64);
-    // Calcultes the -------
+    // Calcultes the fuel consumption of roads
 		loop {
       // Auxiliary variables
       let (mut n, mut c): (f64, f64) = (0f64, 0f64);
@@ -25,11 +25,11 @@ fn main() {
         .map(|s| s.trim().to_string()).collect();
       // Get info from values
       if values.len() <= 3 {
-        n = values[0].parse::<f64>().unwrap();
+        n = values[0].parse::<f64>().expect("Invalid road kilometer.");
       }
       if values.len() == 4 {
-        n = values[0].parse::<f64>().unwrap();
-        c = values[3].parse::<f64>().unwrap();
+        n = values[0].parse::<f64>().expect("Invalid road kilometer.");
+        c = values[3].parse::<f64>().expect("Invalid consumption.");
       }
       // Spend fuel
 			fuel += leak * (n - dist);
