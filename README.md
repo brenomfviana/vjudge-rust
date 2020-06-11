@@ -21,19 +21,40 @@ more sometime later.
 
 ### Some observations
 
-- Rust code can be very verbose due the `Option`s and `Result`s;
+- Rust code, in some situations, can be very verbose due the use of `Option`, `Result` and `HashMap`;
 - Rust code can be very clean, we can do a lot of things with little code;
-- The clippy says to change the &Vec<u8> by &[u8] but the &mut Vec<u8> cannot be changed by &mut [u8] (this makes sense, but I felt a little of OCD by using these different ways);
 - Reverse sort could be simpler (something like `rev_sort()`) not all of this: `sort_by_key(|&num| Reverse(num))`
-- Use HashMap in C++ is very different of Rust HashMap. The first one is really flexible, but can lead to unpredictable behaviors because an element can be created just by calling for a not added key (`hmap[i]`). Rust's HashMap do is more strict because the borrowing rules;
-- I need to think more in expressions, it is a quite hard when you used to do not do it.
+- C++ HashMap is very different of Rust HashMap. The first one is really flexible, but can lead to unpredictable behaviors because an element can be created just by calling for a not added key (`hmap[i]`). Rust HashMap is more strict because the borrowing rules.
 
 
-### Somethings that I missed
+### Some things that I missed
 
-- Tuple assignment for already defined variables;
-- The `do...while` syntax sugar;
-- The `stdin.read_char` function, it is a better way to use it in some problems, like the last one of this repository.
+- Tuple assignment for already defined variables, something like:
+  ```
+  let (mut a, mut b) = (0, 0);
+  (a, b) = (4, 2);
+  ```
+  Maybe there is a reason for Rust do not allow this, but it would make the code cleaner;
+- The `do...while` syntax sugar. I prefer use this:
+  ```
+  do {
+    a += 1;
+  } while a > b;
+  ```
+  instead of this:
+  ```
+  loop {
+    a += 1;
+    if a > b { break }
+  }
+  ```
+  maybe we also could have a `do...while let`, but I cannot think in an example of usage of this.
+- A function to read char by char from an input (`read_char(&mut char)`),
+  ```
+  let mut input = char::new();
+  io::stdin().read_char(&mut input);
+  ```
+  use this function is better to use for some problems, like the last one of this repository.
 
 
 ## List of Problems
