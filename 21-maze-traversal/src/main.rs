@@ -88,21 +88,21 @@ impl Robot {
         }
         // Turn right
         if c == R {
-          match self.o {
-            Direction::N => self.o = Direction::E,
-            Direction::S => self.o = Direction::W,
-            Direction::W => self.o = Direction::N,
-            Direction::E => self.o = Direction::S,
-          }
+          self.o = match self.o {
+            Direction::N => Direction::E,
+            Direction::S => Direction::W,
+            Direction::W => Direction::N,
+            Direction::E => Direction::S,
+          };
         }
         // Turn left
         if c == L {
-          match self.o {
-            Direction::N => self.o = Direction::W,
-            Direction::S => self.o = Direction::E,
-            Direction::W => self.o = Direction::S,
-            Direction::E => self.o = Direction::N,
-          }
+          self.o = match self.o {
+            Direction::N => Direction::W,
+            Direction::S => Direction::E,
+            Direction::W => Direction::S,
+            Direction::E => Direction::N,
+          };
         }
       }
     }
