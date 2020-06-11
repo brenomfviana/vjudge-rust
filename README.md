@@ -6,7 +6,7 @@ This repository contains Rust solutions of some CodeChef and UVa problems.
 These problems were homeworks for the Algorithms Project course of University
 of São Paulo (USP).
 
-When I code these solutions there was no option for send Rust code to VJudge
+When I code these solutions there was no option to send Rust code to VJudge
 (the official code judge of our class) or another code judging system
 (**Are we judged yet?**). I also did not find any Rust solution for these
 problems. I solved the course homeworks by using C++, however I wanted to
