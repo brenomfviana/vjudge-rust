@@ -34,27 +34,27 @@ more sometime later.
   let (mut a, mut b) = (0, 0);
   (a, b) = (4, 2);
   ```
-  Maybe there is a reason for Rust do not allow this, but it would make the code cleaner;
+  Maybe there is a reason for Rust do not allow this, but it would make the code cleaner.
 - The `do...while` syntax sugar. I prefer use this:
   ```
   do {
     a += 1;
   } while a > b;
   ```
-  instead of this:
+  Instead of this:
   ```
   loop {
     a += 1;
     if a > b { break }
   }
   ```
-  maybe we also could have a `do...while let`, but I cannot think in an example of usage of this.
-- A function to read char by char from an input (`read_char(&mut char)`),
+  Maybe we also could have a `do...while let`, but I cannot think in an example of usage of this.
+- A function to read char by char from an input (`read_char(&mut char)`):
   ```
   let mut input = char::new();
   io::stdin().read_char(&mut input);
   ```
-  use this function is better to use for some problems, like the last one of this repository.
+  Use this function is better to use for some problems, like the last one of this repository.
 
 
 ## List of Problems
